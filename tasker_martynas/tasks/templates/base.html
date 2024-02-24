@@ -1,0 +1,52 @@
+<!DOCTYPE html>{% load static i18n %}{% get_current_language as LANGUAGE_CODE %}{% get_available_languages as LANGUAGES %}
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}TASKeriux{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <span class="logo">TASKeriux</span>
+        <ul class="nav">
+            <li><a href="{% url "index" %}">{% trans "dashboard"|capfirst %}</a></li>
+            <li><a href="{% url "task_list" %}">{% trans "tasks"|capfirst %}</a></li>
+        </ul>
+        <span class="spacer"></span>
+        <ul class="nav">
+            {% if request.user.is_authenticated %}
+                {% if user.is_superuser or user.is_staff %}
+                    <li><a href="{% url "admin:index" %}">{% trans "admin"|capfirst %}</a></li>
+                {% endif %}
+                <button type="submit">{% trans "log out"|capfirst %}</button></form></li>
+            {% else %}
+                <li><a href="{% url "login" %}">{% trans "log in"|capfirst %}</a></li>
+                <li><a href="{% url "signup" %}">{% trans "sign up"|capfirst %}</a></li>
+            {% endif %}
+        </ul>
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ redirect_to }}">
+            <select class="laguage" name="language" onchange="this.form.submit();">
+                {% for language in LANGUAGES %}
+                    <option value="{{ language.0 }}" {% if language.0 == LANGUAGE_CODE %}selected{% endif %}>
+                        {{ language.1 }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </header>
+    <section class="messages">
+        {% for message in messages %}
+            <p class="message message-{{ message.tags }}">{{ message }}</p>
+        {% endfor %}
+    </section>
+    <main>{% block content %}{% endblock content %}</main>
+    <footer>
+        {% block footer %}{% endblock footer %}
+        <p>&copy; 2024 svarbus tekstas apacioje <a style='float:right;' href="https://ltu.basketball/">uz lietuva vyrai</a>
+            <a style="float:right;" href="https://facebook.com/" target="_blank"><img class = 'icon' src="{% static "img/fb.png" %}">
+        </p>
+    </footer>
+</body>
+</html>

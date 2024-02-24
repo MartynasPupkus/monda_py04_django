@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% load static i18n %}
+{% block content %}
+<h1>DASHBOARDelis<h1>
+<p>{% trans "users"|capfirst %}: {{ users_count }}</p>
+<p>{%trans "projects"|capfirst%}: {{projects_count}}</p>
+<p>{% trans "tasks"|capfirst %}: {{ tasks_count}}</p>
+<img src="{% static "img/fb.png" %}">
+<div class="ltu">
+    <div class="fog">
+        LTU RINKTINE
+    </div>
+</div>
+{% endblock content %}
