@@ -12,6 +12,7 @@ class Project(models.Model):
         verbose_name=_("owner"), 
         related_name='projects',
     )
+    youtube_video_hash = models.CharField(_("Youtube video hash"), max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name
